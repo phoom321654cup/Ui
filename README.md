@@ -100,6 +100,36 @@ page1.Visible = true
 page1.Name = "AuToFarm"
 page1.Parent = contentArea
 
+-- RedeemCode Button
+local redeemButton = Instance.new("TextButton")
+redeemButton.Parent = page1
+redeemButton.Size = UDim2.new(1, -20, 0, 40)
+redeemButton.Position = UDim2.new(0, 10, 0, 10)
+redeemButton.Text = "RedeemCode"
+redeemButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+redeemButton.TextColor3 = Color3.new(1, 1, 1)
+redeemButton.BorderSizePixel = 0
+redeemButton.Font = Enum.Font.Gotham
+redeemButton.TextScaled = true
+
+-- Toggle: AuToFarm
+local autoFarmToggle = Instance.new("TextButton")
+autoFarmToggle.Parent = page1
+autoFarmToggle.Size = UDim2.new(1, -20, 0, 40)
+autoFarmToggle.Position = UDim2.new(0, 10, 0, 60)
+autoFarmToggle.Text = "AuToFarm: OFF"
+autoFarmToggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+autoFarmToggle.TextColor3 = Color3.new(1, 1, 1)
+autoFarmToggle.BorderSizePixel = 0
+autoFarmToggle.Font = Enum.Font.Gotham
+autoFarmToggle.TextScaled = true
+
+local autoFarmStatus = false
+autoFarmToggle.MouseButton1Click:Connect(function()
+    autoFarmStatus = not autoFarmStatus
+    autoFarmToggle.Text = "AuToFarm: " .. (autoFarmStatus and "ON" or "OFF")
+end)
+
 -- Dropdown: SeLecT STaTs
 local dropdown = Instance.new("TextButton")
 dropdown.Parent = page1
@@ -143,38 +173,4 @@ dropdown.MouseButton1Click:Connect(function()
         end
         option.Visible = dropdownOpen
     end
-end)
-
--- Refresh Dropdown Button
-local refreshButton = Instance.new("TextButton")
-refreshButton.Parent = page1
-refreshButton.Size = UDim2.new(1, -20, 0, 40)
-refreshButton.Position = UDim2.new(0, 10, 0, 160)
-refreshButton.Text = "Refresh Dropdown"
-refreshButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-refreshButton.TextColor3 = Color3.new(1, 1, 1)
-refreshButton.BorderSizePixel = 0
-refreshButton.Font = Enum.Font.Gotham
-refreshButton.TextScaled = true
-
--- ฟังก์ชันสำหรับเคลียร์ Dropdown
-local function ClearDropdown()
-    for i = 1, #options do
-        local oldOption = page1:FindFirstChild("Option"..i)
-        if oldOption then
-            oldOption:Destroy()
-        end
-    end
-
-    -- รีเซ็ตตัวแปร options และ dropdownOpen
-    options = {}
-    dropdownOpen = false
-
-    -- ตั้งค่า Text ให้กลับเป็นค่าเริ่มต้น
-    dropdown.Text = "SeLecT STaTs"
-end
-
--- เมื่อกดปุ่ม Refresh จะลบตัวเลือกทั้งหมดใน Dropdown
-refreshButton.MouseButton1Click:Connect(function()
-    ClearDropdown()
 end)
