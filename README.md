@@ -134,33 +134,11 @@ local function createContentPage(name)
     return page
 end
 
--- Create Tabs and Pages
-local tabs = {}
-local pages = {}
-local tabNames = {"Tab 1", "Tab 2", "Tab 3"}
-
-for _, name in pairs(tabNames) do
-    local tab = createTabButton(name)
-    local page = createContentPage(name)
-    table.insert(tabs, tab)
-    table.insert(pages, page)
-    
-    tab.MouseButton1Click:Connect(function()
-        for _, p in pairs(pages) do
-            p.Visible = false
-        end
-        page.Visible = true
-        
-        for _, t in pairs(tabs) do
-            t.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-        end
-        tab.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-    end)
-end
-
--- เปิดหน้าแรกเป็นค่าเริ่มต้น
-pages[1].Visible = true
-tabs[1].BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+-- Create Only Tab 1
+local tab1 = createTabButton("Tab 1")
+local page1 = createContentPage("Tab 1")
+page1.Visible = true
+tab1.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
 
 -- Toggle Visibility
 local toggleButton = Instance.new("TextButton")
