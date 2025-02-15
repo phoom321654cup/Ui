@@ -7,8 +7,8 @@ gui.ResetOnSpawn = false
 -- Main Frame
 local mainFrame = Instance.new("Frame")
 mainFrame.Parent = gui
-mainFrame.Size = UDim2.new(0, 400, 0, 350)
-mainFrame.Position = UDim2.new(0.5, -200, 0.5, -175)
+mainFrame.Size = UDim2.new(0, 400, 0, 300)
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
 mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 mainFrame.BorderSizePixel = 0
 mainFrame.Active = true
@@ -59,6 +59,18 @@ UserInputService.InputChanged:Connect(function(input)
         )
     end
 end)
+
+-- Minimize Button
+local minimizeButton = Instance.new("TextButton")
+minimizeButton.Parent = mainFrame
+minimizeButton.Size = UDim2.new(0, 30, 0, 30)
+minimizeButton.Position = UDim2.new(1, -35, 0, 5)
+minimizeButton.Text = "-"
+minimizeButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+minimizeButton.TextColor3 = Color3.new(1, 1, 1)
+minimizeButton.BorderSizePixel = 0
+minimizeButton.Font = Enum.Font.GothamBold
+minimizeButton.TextScaled = true
 
 -- Sidebar
 local sidebar = Instance.new("Frame")
@@ -130,47 +142,20 @@ autoFarmToggle.MouseButton1Click:Connect(function()
     autoFarmToggle.Text = "AuToFarm: " .. (autoFarmStatus and "ON" or "OFF")
 end)
 
--- Dropdown: SeLecT STaTs
-local dropdown = Instance.new("TextButton")
-dropdown.Parent = page1
-dropdown.Size = UDim2.new(1, -20, 0, 40)
-dropdown.Position = UDim2.new(0, 10, 0, 110)
-dropdown.Text = "SeLecT STaTs"
-dropdown.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-dropdown.TextColor3 = Color3.new(1, 1, 1)
-dropdown.BorderSizePixel = 0
-dropdown.Font = Enum.Font.Gotham
-dropdown.TextScaled = true
+-- Toggle: STarT Up STaTs
+local startStatsToggle = Instance.new("TextButton")
+startStatsToggle.Parent = page1
+startStatsToggle.Size = UDim2.new(1, -20, 0, 40)
+startStatsToggle.Position = UDim2.new(0, 10, 0, 110)
+startStatsToggle.Text = "STarT Up STaTs: OFF"
+startStatsToggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+startStatsToggle.TextColor3 = Color3.new(1, 1, 1)
+startStatsToggle.BorderSizePixel = 0
+startStatsToggle.Font = Enum.Font.Gotham
+startStatsToggle.TextScaled = true
 
-local dropdownOpen = false
-local options = {"Option 1", "Option 2", "Option 3"}
-
-dropdown.MouseButton1Click:Connect(function()
-    dropdownOpen = not dropdownOpen
-    for i, optionText in pairs(options) do
-        local option = page1:FindFirstChild("Option"..i)
-        if not option then
-            option = Instance.new("TextButton")
-            option.Name = "Option"..i
-            option.Size = UDim2.new(1, -20, 0, 30)
-            option.Position = UDim2.new(0, 10, 0, 110 + (i * 40))
-            option.Text = optionText
-            option.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
-            option.TextColor3 = Color3.new(1, 1, 1)
-            option.BorderSizePixel = 0
-            option.Font = Enum.Font.Gotham
-            option.TextScaled = true
-            option.Visible = false
-            option.Parent = page1
-
-            option.MouseButton1Click:Connect(function()
-                dropdown.Text = optionText
-                dropdownOpen = false
-                for j = 1, #options do
-                    page1:FindFirstChild("Option"..j).Visible = false
-                end
-            end)
-        end
-        option.Visible = dropdownOpen
-    end
+local startStatsStatus = false
+startStatsToggle.MouseButton1Click:Connect(function()
+    startStatsStatus = not startStatsStatus
+    startStatsToggle.Text = "STarT Up STaTs: " .. (startStatsStatus and "ON" or "OFF")
 end)
