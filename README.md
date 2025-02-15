@@ -7,79 +7,56 @@ gui.ResetOnSpawn = false
 -- Main Frame
 local mainFrame = Instance.new("Frame")
 mainFrame.Parent = gui
-mainFrame.Size = UDim2.new(0, 400, 0, 250)
-mainFrame.Position = UDim2.new(0.5, -200, 0.5, -125)
+mainFrame.Size = UDim2.new(0, 400, 0, 300)
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
 mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 mainFrame.BorderSizePixel = 0
+mainFrame.Active = true
 
 -- UICorner for rounded edges
 local corner = Instance.new("UICorner")
 corner.Parent = mainFrame
 corner.CornerRadius = UDim.new(0, 10)
 
--- Title
+-- Title (เปลี่ยนชื่อเป็น Life Hub)
 local title = Instance.new("TextLabel")
 title.Parent = mainFrame
 title.Size = UDim2.new(1, 0, 0, 40)
 title.BackgroundTransparency = 1
-title.Text = "Library Title"
+title.Text = "Life Hub"
 title.TextColor3 = Color3.new(1, 1, 1)
 title.TextScaled = true
 title.Font = Enum.Font.GothamBold
+title.Active = true
 
--- Minimize Button
-local minimizeButton = Instance.new("TextButton")
-minimizeButton.Parent = mainFrame
-minimizeButton.Size = UDim2.new(0, 30, 0, 30)
-minimizeButton.Position = UDim2.new(1, -35, 0, 5)
-minimizeButton.Text = "-"
-minimizeButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-minimizeButton.TextColor3 = Color3.new(1, 1, 1)
-minimizeButton.BorderSizePixel = 0
-minimizeButton.Font = Enum.Font.GothamBold
-minimizeButton.TextScaled = true
-
--- Drag Button (+)
-local dragButton = Instance.new("TextButton")
-dragButton.Parent = mainFrame
-dragButton.Size = UDim2.new(0, 30, 0, 30)
-dragButton.Position = UDim2.new(1, -70, 0, 5) -- อยู่ข้างๆ ปุ่ม -
-dragButton.Text = "+"
-dragButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-dragButton.TextColor3 = Color3.new(1, 1, 1)
-dragButton.BorderSizePixel = 0
-dragButton.Font = Enum.Font.GothamBold
-dragButton.TextScaled = true
-
--- Dragging Functionality
+-- Dragging Functionality (ลากด้วย Title)
 local dragging = false
 local dragInput, mousePos, framePos
 
-dragButton.MouseButton1Down:Connect(function()
-    dragging = true
-    mousePos = Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y)
-    framePos = mainFrame.Position
+title.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        dragging = true
+        mousePos = Vector2.new(input.Position.X, input.Position.Y)
+        framePos = mainFrame.Position
 
-    local inputChanged
-    inputChanged = game:GetService("UserInputService").InputChanged:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseMovement and dragging then
-            local delta = Vector2.new(input.Position.X, input.Position.Y) - mousePos
-            mainFrame.Position = UDim2.new(
-                framePos.X.Scale,
-                framePos.X.Offset + delta.X,
-                framePos.Y.Scale,
-                framePos.Y.Offset + delta.Y
-            )
-        end
-    end)
+        input.Changed:Connect(function()
+            if input.UserInputState == Enum.UserInputState.End then
+                dragging = false
+            end
+        end)
+    end
+end)
 
-    -- เมื่อปล่อยเม้าส์ให้หยุดลาก
-    game:GetService("UserInputService").InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-            dragging = false
-            inputChanged:Disconnect()
-        end
-    end)
+title.InputChanged:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseMovement and dragging then
+        local delta = Vector2.new(input.Position.X, input.Position.Y) - mousePos
+        mainFrame.Position = UDim2.new(
+            framePos.X.Scale,
+            framePos.X.Offset + delta.X,
+            framePos.Y.Scale,
+            framePos.Y.Offset + delta.Y
+        )
+    end
 end)
 
 -- Sidebar
@@ -126,20 +103,37 @@ local function createContentPage(name)
     page.Name = name
     page.Parent = contentArea
     
-    -- Button Example
-    local button = Instance.new("TextButton")
-    button.Parent = page
-    button.Size = UDim2.new(1, -20, 0, 40)
-    button.Position = UDim2.new(0, 10, 0, 10)
-    button.Text = "Button!"
-    button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    button.TextColor3 = Color3.new(1, 1, 1)
-    button.BorderSizePixel = 0
-    button.Font = Enum.Font.Gotham
-    button.TextScaled = true
-    button.MouseButton1Click:Connect(function()
-        print("Button clicked in " .. name)
-    end)
+    if name == "AuToFarm" then
+        -- RedeemCode Button
+        local redeemButton = Instance.new("TextButton")
+        redeemButton.Parent = page
+        redeemButton.Size = UDim2.new(0, 200, 0, 40)
+        redeemButton.Position = UDim2.new(0, 10, 0, 10)
+        redeemButton.Text = "RedeemCode"
+        redeemButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        redeemButton.TextColor3 = Color3.new(1, 1, 1)
+        redeemButton.BorderSizePixel = 0
+        redeemButton.Font = Enum.Font.Gotham
+        redeemButton.TextScaled = true
+        
+        -- AuToFarm Toggle
+        local autoFarmToggle = Instance.new("TextButton")
+        autoFarmToggle.Parent = page
+        autoFarmToggle.Size = UDim2.new(0, 200, 0, 40)
+        autoFarmToggle.Position = UDim2.new(0, 10, 0, 60)
+        autoFarmToggle.Text = "AuToFarm: OFF"
+        autoFarmToggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        autoFarmToggle.TextColor3 = Color3.new(1, 1, 1)
+        autoFarmToggle.BorderSizePixel = 0
+        autoFarmToggle.Font = Enum.Font.Gotham
+        autoFarmToggle.TextScaled = true
+        
+        local isAutoFarm = false
+        autoFarmToggle.MouseButton1Click:Connect(function()
+            isAutoFarm = not isAutoFarm
+            autoFarmToggle.Text = isAutoFarm and "AuToFarm: ON" or "AuToFarm: OFF"
+        end)
+    end
     
     return page
 end
@@ -147,7 +141,7 @@ end
 -- Create Tabs and Pages
 local tabs = {}
 local pages = {}
-local tabNames = {"Tab 1", "Tab 2", "Tab 3"}
+local tabNames = {"AuToFarm"}
 
 for _, name in pairs(tabNames) do
     local tab = createTabButton(name)
@@ -171,27 +165,3 @@ end
 -- เปิดหน้าแรกเป็นค่าเริ่มต้น
 pages[1].Visible = true
 tabs[1].BackgroundColor3 = Color3.fromRGB(60, 60, 60)
-
--- Toggle Visibility
-local isVisible = true
-local toggleButton = Instance.new("TextButton")
-toggleButton.Parent = gui
-toggleButton.Size = UDim2.new(0, 50, 0, 30)
-toggleButton.Position = UDim2.new(0.5, -25, 0, 10)
-toggleButton.Text = "^"
-toggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-toggleButton.TextColor3 = Color3.new(1, 1, 1)
-toggleButton.BorderSizePixel = 0
-toggleButton.Font = Enum.Font.GothamBold
-toggleButton.TextScaled = true
-toggleButton.Visible = false
-
-minimizeButton.MouseButton1Click:Connect(function()
-    mainFrame.Visible = false
-    toggleButton.Visible = true
-end)
-
-toggleButton.MouseButton1Click:Connect(function()
-    mainFrame.Visible = true
-    toggleButton.Visible = false
-end)
