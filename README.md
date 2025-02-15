@@ -7,8 +7,8 @@ gui.ResetOnSpawn = false
 -- Main Frame
 local mainFrame = Instance.new("Frame")
 mainFrame.Parent = gui
-mainFrame.Size = UDim2.new(0, 400, 0, 300)
-mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
+mainFrame.Size = UDim2.new(0, 400, 0, 450)
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -225)
 mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 mainFrame.BorderSizePixel = 0
 mainFrame.Active = true
@@ -60,18 +60,6 @@ UserInputService.InputChanged:Connect(function(input)
     end
 end)
 
--- Minimize Button
-local minimizeButton = Instance.new("TextButton")
-minimizeButton.Parent = mainFrame
-minimizeButton.Size = UDim2.new(0, 30, 0, 30)
-minimizeButton.Position = UDim2.new(1, -35, 0, 5)
-minimizeButton.Text = "-"
-minimizeButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-minimizeButton.TextColor3 = Color3.new(1, 1, 1)
-minimizeButton.BorderSizePixel = 0
-minimizeButton.Font = Enum.Font.GothamBold
-minimizeButton.TextScaled = true
-
 -- Sidebar
 local sidebar = Instance.new("Frame")
 sidebar.Parent = mainFrame
@@ -112,50 +100,77 @@ page1.Visible = true
 page1.Name = "AuToFarm"
 page1.Parent = contentArea
 
--- RedeemCode Button
-local redeemButton = Instance.new("TextButton")
-redeemButton.Parent = page1
-redeemButton.Size = UDim2.new(1, -20, 0, 40)
-redeemButton.Position = UDim2.new(0, 10, 0, 10)
-redeemButton.Text = "RedeemCode"
-redeemButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-redeemButton.TextColor3 = Color3.new(1, 1, 1)
-redeemButton.BorderSizePixel = 0
-redeemButton.Font = Enum.Font.Gotham
-redeemButton.TextScaled = true
+-- Slider for STaTs (min = 1, max = 99)
+local sliderFrame = Instance.new("Frame")
+sliderFrame.Parent = page1
+sliderFrame.Size = UDim2.new(1, -20, 0, 50)
+sliderFrame.Position = UDim2.new(0, 10, 0, 10)
+sliderFrame.BackgroundTransparency = 1
 
--- Toggle: AuToFarm
-local autoFarmToggle = Instance.new("TextButton")
-autoFarmToggle.Parent = page1
-autoFarmToggle.Size = UDim2.new(1, -20, 0, 40)
-autoFarmToggle.Position = UDim2.new(0, 10, 0, 60)
-autoFarmToggle.Text = "AuToFarm: OFF"
-autoFarmToggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-autoFarmToggle.TextColor3 = Color3.new(1, 1, 1)
-autoFarmToggle.BorderSizePixel = 0
-autoFarmToggle.Font = Enum.Font.Gotham
-autoFarmToggle.TextScaled = true
+local sliderLabel = Instance.new("TextLabel")
+sliderLabel.Parent = sliderFrame
+sliderLabel.Size = UDim2.new(1, 0, 0.4, 0)
+sliderLabel.Position = UDim2.new(0, 0, 0, 0)
+sliderLabel.BackgroundTransparency = 1
+sliderLabel.Text = "SeLecT STaTs: 1"
+sliderLabel.TextColor3 = Color3.new(1, 1, 1)
+sliderLabel.TextScaled = true
+sliderLabel.Font = Enum.Font.Gotham
 
-local autoFarmStatus = false
-autoFarmToggle.MouseButton1Click:Connect(function()
-    autoFarmStatus = not autoFarmStatus
-    autoFarmToggle.Text = "AuToFarm: " .. (autoFarmStatus and "ON" or "OFF")
+local slider = Instance.new("TextButton")
+slider.Parent = sliderFrame
+slider.Size = UDim2.new(1, 0, 0.6, 0)
+slider.Position = UDim2.new(0, 0, 0.4, 0)
+slider.Text = ""
+slider.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+slider.BorderSizePixel = 0
+slider.AutoButtonColor = false
+
+local sliderKnob = Instance.new("Frame")
+sliderKnob.Parent = slider
+sliderKnob.Size = UDim2.new(0, 10, 1, 0)
+sliderKnob.Position = UDim2.new(0, 0, 0, 0)
+sliderKnob.BackgroundColor3 = Color3.fromRGB(80, 80, 80)
+sliderKnob.BorderSizePixel = 0
+
+local draggingSlider = false
+
+slider.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        draggingSlider = true
+    end
+end)
+
+UserInputService.InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        draggingSlider = false
+    end
+end)
+
+UserInputService.InputChanged:Connect(function(input)
+    if draggingSlider and input.UserInputType == Enum.UserInputType.MouseMovement then
+        local sliderPos = math.clamp(input.Position.X - slider.AbsolutePosition.X, 0, slider.AbsoluteSize.X)
+        local percentage = sliderPos / slider.AbsoluteSize.X
+        local value = math.floor(1 + (98 * percentage))
+        sliderKnob.Position = UDim2.new(percentage, 0, 0, 0)
+        sliderLabel.Text = "SeLecT STaTs: " .. value
+    end
 end)
 
 -- Toggle: STarT Up STaTs
-local startStatsToggle = Instance.new("TextButton")
-startStatsToggle.Parent = page1
-startStatsToggle.Size = UDim2.new(1, -20, 0, 40)
-startStatsToggle.Position = UDim2.new(0, 10, 0, 110)
-startStatsToggle.Text = "STarT Up STaTs: OFF"
-startStatsToggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-startStatsToggle.TextColor3 = Color3.new(1, 1, 1)
-startStatsToggle.BorderSizePixel = 0
-startStatsToggle.Font = Enum.Font.Gotham
-startStatsToggle.TextScaled = true
+local startUpToggle = Instance.new("TextButton")
+startUpToggle.Parent = page1
+startUpToggle.Size = UDim2.new(1, -20, 0, 40)
+startUpToggle.Position = UDim2.new(0, 10, 0, 70)
+startUpToggle.Text = "STarT Up STaTs: OFF"
+startUpToggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+startUpToggle.TextColor3 = Color3.new(1, 1, 1)
+startUpToggle.BorderSizePixel = 0
+startUpToggle.Font = Enum.Font.Gotham
+startUpToggle.TextScaled = true
 
-local startStatsStatus = false
-startStatsToggle.MouseButton1Click:Connect(function()
-    startStatsStatus = not startStatsStatus
-    startStatsToggle.Text = "STarT Up STaTs: " .. (startStatsStatus and "ON" or "OFF")
+local startUpStatus = false
+startUpToggle.MouseButton1Click:Connect(function()
+    startUpStatus = not startUpStatus
+    startUpToggle.Text = "STarT Up STaTs: " .. (startUpStatus and "ON" or "OFF")
 end)
