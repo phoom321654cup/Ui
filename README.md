@@ -285,7 +285,7 @@ end
 local autoFarmToggle = Instance.new("TextButton")
 upstatsToggle.Parent = page1
 upstatsToggle.Size = UDim2.new(1, -20, 0, 40)
-upstatsToggle.Position = UDim2.new(0, 10, 0, 60)
+upstatsToggle.Position = UDim2.new(0, 10, 0, 160)
 upstatsToggle.Text = "Up-STaTs: OFF"
 upstatsToggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
 upstatsToggle.TextColor3 = Color3.new(1, 1, 1)
