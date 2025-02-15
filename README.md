@@ -11,8 +11,7 @@ mainFrame.Size = UDim2.new(0, 400, 0, 250)
 mainFrame.Position = UDim2.new(0.5, -200, 0.5, -125)
 mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 mainFrame.BorderSizePixel = 0
-mainFrame.Active = true -- ทำให้ Frame สามารถรับ Input การลากได้
-mainFrame.Draggable = false -- ไม่ใช้ Property นี้เพราะจะทำให้เคลื่อนย้ายไม่ได้ลื่นไหล
+mainFrame.Active = true
 
 -- UICorner for rounded edges
 local corner = Instance.new("UICorner")
@@ -31,15 +30,16 @@ title.Font = Enum.Font.GothamBold
 title.Active = true
 
 -- Dragging Functionality (ลากด้วย Title)
+local UserInputService = game:GetService("UserInputService")
 local dragging = false
-local dragInput, mousePos, framePos
+local mousePos, framePos
 
 title.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
         dragging = true
         mousePos = Vector2.new(input.Position.X, input.Position.Y)
         framePos = mainFrame.Position
-
+        
         input.Changed:Connect(function()
             if input.UserInputState == Enum.UserInputState.End then
                 dragging = false
@@ -48,8 +48,8 @@ title.InputBegan:Connect(function(input)
     end
 end)
 
-title.InputChanged:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseMovement and dragging then
+UserInputService.InputChanged:Connect(function(input)
+    if dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
         local delta = Vector2.new(input.Position.X, input.Position.Y) - mousePos
         mainFrame.Position = UDim2.new(
             framePos.X.Scale,
