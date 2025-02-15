@@ -7,23 +7,24 @@ gui.ResetOnSpawn = false
 -- Main Frame
 local mainFrame = Instance.new("Frame")
 mainFrame.Parent = gui
-mainFrame.Size = UDim2.new(0, 400, 0, 300)
-mainFrame.Position = UDim2.new(0.5, -200, 0.5, -150)
+mainFrame.Size = UDim2.new(0, 400, 0, 250)
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -125)
 mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 mainFrame.BorderSizePixel = 0
-mainFrame.Active = true
+mainFrame.Active = true -- ทำให้ Frame สามารถรับ Input การลากได้
+mainFrame.Draggable = false -- ไม่ใช้ Property นี้เพราะจะทำให้เคลื่อนย้ายไม่ได้ลื่นไหล
 
 -- UICorner for rounded edges
 local corner = Instance.new("UICorner")
 corner.Parent = mainFrame
 corner.CornerRadius = UDim.new(0, 10)
 
--- Title (เปลี่ยนชื่อเป็น Life Hub)
+-- Title (ใช้ลาก UI ได้)
 local title = Instance.new("TextLabel")
 title.Parent = mainFrame
 title.Size = UDim2.new(1, 0, 0, 40)
 title.BackgroundTransparency = 1
-title.Text = "Life Hub"
+title.Text = "Library Title"
 title.TextColor3 = Color3.new(1, 1, 1)
 title.TextScaled = true
 title.Font = Enum.Font.GothamBold
@@ -58,6 +59,18 @@ title.InputChanged:Connect(function(input)
         )
     end
 end)
+
+-- Minimize Button
+local minimizeButton = Instance.new("TextButton")
+minimizeButton.Parent = mainFrame
+minimizeButton.Size = UDim2.new(0, 30, 0, 30)
+minimizeButton.Position = UDim2.new(1, -35, 0, 5)
+minimizeButton.Text = "-"
+minimizeButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+minimizeButton.TextColor3 = Color3.new(1, 1, 1)
+minimizeButton.BorderSizePixel = 0
+minimizeButton.Font = Enum.Font.GothamBold
+minimizeButton.TextScaled = true
 
 -- Sidebar
 local sidebar = Instance.new("Frame")
@@ -103,37 +116,20 @@ local function createContentPage(name)
     page.Name = name
     page.Parent = contentArea
     
-    if name == "AuToFarm" then
-        -- RedeemCode Button
-        local redeemButton = Instance.new("TextButton")
-        redeemButton.Parent = page
-        redeemButton.Size = UDim2.new(0, 200, 0, 40)
-        redeemButton.Position = UDim2.new(0, 10, 0, 10)
-        redeemButton.Text = "RedeemCode"
-        redeemButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-        redeemButton.TextColor3 = Color3.new(1, 1, 1)
-        redeemButton.BorderSizePixel = 0
-        redeemButton.Font = Enum.Font.Gotham
-        redeemButton.TextScaled = true
-        
-        -- AuToFarm Toggle
-        local autoFarmToggle = Instance.new("TextButton")
-        autoFarmToggle.Parent = page
-        autoFarmToggle.Size = UDim2.new(0, 200, 0, 40)
-        autoFarmToggle.Position = UDim2.new(0, 10, 0, 60)
-        autoFarmToggle.Text = "AuToFarm: OFF"
-        autoFarmToggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-        autoFarmToggle.TextColor3 = Color3.new(1, 1, 1)
-        autoFarmToggle.BorderSizePixel = 0
-        autoFarmToggle.Font = Enum.Font.Gotham
-        autoFarmToggle.TextScaled = true
-        
-        local isAutoFarm = false
-        autoFarmToggle.MouseButton1Click:Connect(function()
-            isAutoFarm = not isAutoFarm
-            autoFarmToggle.Text = isAutoFarm and "AuToFarm: ON" or "AuToFarm: OFF"
-        end)
-    end
+    -- Button Example
+    local button = Instance.new("TextButton")
+    button.Parent = page
+    button.Size = UDim2.new(1, -20, 0, 40)
+    button.Position = UDim2.new(0, 10, 0, 10)
+    button.Text = "Button!"
+    button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    button.TextColor3 = Color3.new(1, 1, 1)
+    button.BorderSizePixel = 0
+    button.Font = Enum.Font.Gotham
+    button.TextScaled = true
+    button.MouseButton1Click:Connect(function()
+        print("Button clicked in " .. name)
+    end)
     
     return page
 end
@@ -141,7 +137,7 @@ end
 -- Create Tabs and Pages
 local tabs = {}
 local pages = {}
-local tabNames = {"AuToFarm"}
+local tabNames = {"Tab 1", "Tab 2", "Tab 3"}
 
 for _, name in pairs(tabNames) do
     local tab = createTabButton(name)
@@ -165,3 +161,26 @@ end
 -- เปิดหน้าแรกเป็นค่าเริ่มต้น
 pages[1].Visible = true
 tabs[1].BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+
+-- Toggle Visibility
+local toggleButton = Instance.new("TextButton")
+toggleButton.Parent = gui
+toggleButton.Size = UDim2.new(0, 50, 0, 30)
+toggleButton.Position = UDim2.new(0.5, -25, 0, 10)
+toggleButton.Text = "^"
+toggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+toggleButton.TextColor3 = Color3.new(1, 1, 1)
+toggleButton.BorderSizePixel = 0
+toggleButton.Font = Enum.Font.GothamBold
+toggleButton.TextScaled = true
+toggleButton.Visible = false
+
+minimizeButton.MouseButton1Click:Connect(function()
+    mainFrame.Visible = false
+    toggleButton.Visible = true
+end)
+
+toggleButton.MouseButton1Click:Connect(function()
+    mainFrame.Visible = true
+    toggleButton.Visible = false
+end)
