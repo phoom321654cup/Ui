@@ -116,6 +116,34 @@ contentArea.Size = UDim2.new(1, -80, 1, -40)
 contentArea.Position = UDim2.new(0, 80, 0, 40)
 contentArea.BackgroundTransparency = 1
 
+-- Content Area
+local contentArea = Instance.new("Frame")
+contentArea.Parent = mainFrame
+contentArea.Size = UDim2.new(1, -80, 1, -40)
+contentArea.Position = UDim2.new(0, 80, 0, 40)
+contentArea.BackgroundTransparency = 1
+
+-- Content Area (ScrollingFrame)
+local contentArea = Instance.new("ScrollingFrame")
+contentArea.Parent = mainFrame
+contentArea.Size = UDim2.new(1, -80, 1, -40)
+contentArea.Position = UDim2.new(0, 80, 0, 40)
+contentArea.BackgroundTransparency = 1
+contentArea.CanvasSize = UDim2.new(0, 0, 2, 0) -- ปรับความสูงของเนื้อหา
+contentArea.ScrollBarThickness = 6
+contentArea.ScrollBarImageColor3 = Color3.fromRGB(100, 100, 100)
+
+-- UIListLayout สำหรับการจัดเรียงเนื้อหา
+local contentLayout = Instance.new("UIListLayout")
+contentLayout.Parent = contentArea
+contentLayout.SortOrder = Enum.SortOrder.LayoutOrder
+contentLayout.Padding = UDim.new(0, 10)
+
+-- อัปเดต CanvasSize เมื่อเนื้อหาเปลี่ยน
+contentLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
+    contentArea.CanvasSize = UDim2.new(0, 0, 0, contentLayout.AbsoluteContentSize.Y)
+end)
+
 -- Create Tab Button
 local tab1 = Instance.new("TextButton")
 tab1.Size = UDim2.new(1, 0, 0, 40)
