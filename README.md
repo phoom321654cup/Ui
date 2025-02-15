@@ -39,6 +39,49 @@ minimizeButton.BorderSizePixel = 0
 minimizeButton.Font = Enum.Font.GothamBold
 minimizeButton.TextScaled = true
 
+-- Drag Button (+)
+local dragButton = Instance.new("TextButton")
+dragButton.Parent = mainFrame
+dragButton.Size = UDim2.new(0, 30, 0, 30)
+dragButton.Position = UDim2.new(1, -70, 0, 5) -- อยู่ข้างๆ ปุ่ม -
+dragButton.Text = "+"
+dragButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+dragButton.TextColor3 = Color3.new(1, 1, 1)
+dragButton.BorderSizePixel = 0
+dragButton.Font = Enum.Font.GothamBold
+dragButton.TextScaled = true
+
+-- Dragging Functionality
+local dragging = false
+local dragInput, mousePos, framePos
+
+dragButton.MouseButton1Down:Connect(function()
+    dragging = true
+    mousePos = Vector2.new(game.Players.LocalPlayer:GetMouse().X, game.Players.LocalPlayer:GetMouse().Y)
+    framePos = mainFrame.Position
+
+    local inputChanged
+    inputChanged = game:GetService("UserInputService").InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement and dragging then
+            local delta = Vector2.new(input.Position.X, input.Position.Y) - mousePos
+            mainFrame.Position = UDim2.new(
+                framePos.X.Scale,
+                framePos.X.Offset + delta.X,
+                framePos.Y.Scale,
+                framePos.Y.Offset + delta.Y
+            )
+        end
+    end)
+
+    -- เมื่อปล่อยเม้าส์ให้หยุดลาก
+    game:GetService("UserInputService").InputEnded:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = false
+            inputChanged:Disconnect()
+        end
+    end)
+end)
+
 -- Sidebar
 local sidebar = Instance.new("Frame")
 sidebar.Parent = mainFrame
