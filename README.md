@@ -237,3 +237,15 @@ dropdown.MouseButton1Click:Connect(function()
         option.Visible = dropdownOpen
     end
 end)
+
+-- Toggle: AuToFarm
+local autoFarmToggle = Instance.new("TextButton")
+autoFarmToggle.Parent = page1
+autoFarmToggle.Size = UDim2.new(1, -20, 0, 40)
+autoFarmToggle.Position = UDim2.new(0, 10, 0, 60)
+autoFarmToggle.Text = "Up-STaTs: OFF"
+autoFarmToggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+autoFarmToggle.TextColor3 = Color3.new(1, 1, 1)
+autoFarmToggle.BorderSizePixel = 0
+autoFarmToggle.Font = Enum.Font.Gotham
+autoFarmToggle.TextScaled = true
