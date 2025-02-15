@@ -7,8 +7,8 @@ gui.ResetOnSpawn = false
 -- Main Frame
 local mainFrame = Instance.new("Frame")
 mainFrame.Parent = gui
-mainFrame.Size = UDim2.new(0, 500, 0, 350)
-mainFrame.Position = UDim2.new(0.5, -250, 0.5, -175)
+mainFrame.Size = UDim2.new(0, 400, 0, 250)
+mainFrame.Position = UDim2.new(0.5, -200, 0.5, -125)
 mainFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 mainFrame.BorderSizePixel = 0
 
@@ -20,18 +20,30 @@ corner.CornerRadius = UDim.new(0, 10)
 -- Title
 local title = Instance.new("TextLabel")
 title.Parent = mainFrame
-title.Size = UDim2.new(1, 0, 0, 50)
+title.Size = UDim2.new(1, 0, 0, 40)
 title.BackgroundTransparency = 1
-title.Text = "Title of the Library"
+title.Text = "Library Title"
 title.TextColor3 = Color3.new(1, 1, 1)
 title.TextScaled = true
 title.Font = Enum.Font.GothamBold
 
+-- Minimize Button
+local minimizeButton = Instance.new("TextButton")
+minimizeButton.Parent = mainFrame
+minimizeButton.Size = UDim2.new(0, 30, 0, 30)
+minimizeButton.Position = UDim2.new(1, -35, 0, 5)
+minimizeButton.Text = "-"
+minimizeButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+minimizeButton.TextColor3 = Color3.new(1, 1, 1)
+minimizeButton.BorderSizePixel = 0
+minimizeButton.Font = Enum.Font.GothamBold
+minimizeButton.TextScaled = true
+
 -- Sidebar
 local sidebar = Instance.new("Frame")
 sidebar.Parent = mainFrame
-sidebar.Size = UDim2.new(0, 100, 1, -50)
-sidebar.Position = UDim2.new(0, 0, 0, 50)
+sidebar.Size = UDim2.new(0, 80, 1, -40)
+sidebar.Position = UDim2.new(0, 0, 0, 40)
 sidebar.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
 sidebar.BorderSizePixel = 0
 
@@ -44,14 +56,14 @@ listLayout.Padding = UDim.new(0, 5)
 -- Content Area
 local contentArea = Instance.new("Frame")
 contentArea.Parent = mainFrame
-contentArea.Size = UDim2.new(1, -100, 1, -50)
-contentArea.Position = UDim2.new(0, 100, 0, 50)
+contentArea.Size = UDim2.new(1, -80, 1, -40)
+contentArea.Position = UDim2.new(0, 80, 0, 40)
 contentArea.BackgroundTransparency = 1
 
 -- Function for Creating Tabs
 local function createTabButton(name)
     local tabButton = Instance.new("TextButton")
-    tabButton.Size = UDim2.new(1, 0, 0, 50)
+    tabButton.Size = UDim2.new(1, 0, 0, 40)
     tabButton.Text = name
     tabButton.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     tabButton.TextColor3 = Color3.new(1, 1, 1)
@@ -71,10 +83,10 @@ local function createContentPage(name)
     page.Name = name
     page.Parent = contentArea
     
-    -- Button
+    -- Button Example
     local button = Instance.new("TextButton")
     button.Parent = page
-    button.Size = UDim2.new(1, -20, 0, 50)
+    button.Size = UDim2.new(1, -20, 0, 40)
     button.Position = UDim2.new(0, 10, 0, 10)
     button.Text = "Button!"
     button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
@@ -84,54 +96,6 @@ local function createContentPage(name)
     button.TextScaled = true
     button.MouseButton1Click:Connect(function()
         print("Button clicked in " .. name)
-    end)
-
-    -- Toggle
-    local toggle = Instance.new("TextButton")
-    toggle.Parent = page
-    toggle.Size = UDim2.new(1, -20, 0, 50)
-    toggle.Position = UDim2.new(0, 10, 0, 70)
-    toggle.Text = "This is a toggle!"
-    toggle.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    toggle.TextColor3 = Color3.new(1, 1, 1)
-    toggle.BorderSizePixel = 0
-    toggle.Font = Enum.Font.Gotham
-    toggle.TextScaled = true
-
-    local isToggled = false
-    toggle.MouseButton1Click:Connect(function()
-        isToggled = not isToggled
-        toggle.BackgroundColor3 = isToggled and Color3.new(0, 1, 0) or Color3.fromRGB(50, 50, 50)
-        print("Toggle state in " .. name .. ":", isToggled)
-    end)
-
-    -- Color Picker
-    local colorPicker = Instance.new("TextButton")
-    colorPicker.Parent = page
-    colorPicker.Size = UDim2.new(0, 50, 0, 50)
-    colorPicker.Position = UDim2.new(0, 10, 0, 130)
-    colorPicker.BackgroundColor3 = Color3.new(1, 0, 0)
-    colorPicker.BorderSizePixel = 0
-    colorPicker.Text = ""
-    colorPicker.MouseButton1Click:Connect(function()
-        colorPicker.BackgroundColor3 = Color3.new(math.random(), math.random(), math.random())
-    end)
-
-    -- Slider (แบบง่าย ๆ ด้วย TextBox)
-    local slider = Instance.new("TextBox")
-    slider.Parent = page
-    slider.Size = UDim2.new(1, -20, 0, 50)
-    slider.Position = UDim2.new(0, 10, 0, 190)
-    slider.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    slider.TextColor3 = Color3.new(1, 1, 1)
-    slider.BorderSizePixel = 0
-    slider.Font = Enum.Font.Gotham
-    slider.TextScaled = true
-    slider.Text = "5 bananas"
-    slider.FocusLost:Connect(function(enterPressed)
-        if enterPressed then
-            print("Slider value in " .. name .. ":", slider.Text)
-        end
     end)
     
     return page
@@ -164,3 +128,27 @@ end
 -- เปิดหน้าแรกเป็นค่าเริ่มต้น
 pages[1].Visible = true
 tabs[1].BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+
+-- Toggle Visibility
+local isVisible = true
+local toggleButton = Instance.new("TextButton")
+toggleButton.Parent = gui
+toggleButton.Size = UDim2.new(0, 50, 0, 30)
+toggleButton.Position = UDim2.new(0.5, -25, 0, 10)
+toggleButton.Text = "^"
+toggleButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+toggleButton.TextColor3 = Color3.new(1, 1, 1)
+toggleButton.BorderSizePixel = 0
+toggleButton.Font = Enum.Font.GothamBold
+toggleButton.TextScaled = true
+toggleButton.Visible = false
+
+minimizeButton.MouseButton1Click:Connect(function()
+    mainFrame.Visible = false
+    toggleButton.Visible = true
+end)
+
+toggleButton.MouseButton1Click:Connect(function()
+    mainFrame.Visible = true
+    toggleButton.Visible = false
+end)
