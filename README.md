@@ -296,13 +296,16 @@ upstatsToggle.TextScaled = true
 local upstatsStatus = false
 
 local function toggleUpstats()
-upstatsStatus = not upstatsStatus
-upstatsToggle.Text = "Up-STaTs: " ..(upstatsStatus and "ON" or "OFF")
+    upstatsStatus = not upstatsStatus
+    upstatsToggle.Text = "Up-STaTs: " .. (upstatsStatus and "ON" or "OFF")
 
-if upstatsStatus then
-
-else
-
+    if upstatsStatus then
+        print("Up-STaTs เปิดใช้งาน")
+        
+    else
+        print("Up-STaTs ปิดใช้งาน")
+        
+    end
 end
 
 -- เรียกใช้ฟังก์ชันเมื่อคลิกปุ่ม
