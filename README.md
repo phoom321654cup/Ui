@@ -206,6 +206,7 @@ dropdown.Font = Enum.Font.Gotham
 dropdown.TextScaled = true
 
 local dropdownOpen = false
+local selectedOption = nil
 local options = {"Melee", "Defense", "Sword", "Gun", "Fruit"}
 
 dropdown.MouseButton1Click:Connect(function()
@@ -228,12 +229,54 @@ dropdown.MouseButton1Click:Connect(function()
 
             option.MouseButton1Click:Connect(function()
                 dropdown.Text = optionText
+                selectedOption = optionText -- เก็บค่าที่เลือก
                 dropdownOpen = false
                 for j = 1, #options do
                     page1:FindFirstChild("Option"..j).Visible = false
                 end
+                addPoint() -- เรียกใช้งานทันทีเมื่อเลือกตัวเลือก
             end)
         end
         option.Visible = dropdownOpen
     end
 end)
+
+-- ฟังก์ชันส่งค่าไปยัง Server
+local function addPoint()
+    if selectedOption == "Melee" then
+        local args = {
+            [1] = "AddPoint",
+            [2] = "Melee",
+            [3] = 1
+        }
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+    elseif selectedOption == "Defense" then
+        local args = {
+            [1] = "AddPoint",
+            [2] = "Defense",
+            [3] = 1
+        }
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+    elseif selectedOption == "Sword" then
+        local args = {
+            [1] = "AddPoint",
+            [2] = "Sword",
+            [3] = 1
+        }
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+    elseif selectedOption == "Gun" then
+        local args = {
+            [1] = "AddPoint",
+            [2] = "Gun",
+            [3] = 1
+        }
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+    elseif selectedOption == "Fruit" then
+        local args = {
+            [1] = "AddPoint",
+            [2] = "Fruit",
+            [3] = 1
+        }
+        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+    end
+end
