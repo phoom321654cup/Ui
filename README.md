@@ -1,12 +1,18 @@
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/jensonhirst/Orion/main/source')))()
+--[[
+	WARNING: Heads up! This script has not been verified by ScriptBlox. Use at your own risk!
+]]
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 local Window = OrionLib:MakeWindow({Name = "Title of the library", HidePremium = false, SaveConfig = true, ConfigFolder = "OrionTest"})
 local Tab = Window:MakeTab({
 	Name = "Tab 1",
 	Icon = "rbxassetid://4483345998",
 	PremiumOnly = false
 })
-local Section = Tab:AddSection({
-	Name = "Section"
+OrionLib:MakeNotification({
+	Name = "Title!",
+	Content = "Notification content... what will it say??",
+	Image = "rbxassetid://4483345998",
+	Time = 5
 })
 Tab:AddButton({
 	Name = "Button!",
@@ -28,6 +34,7 @@ Tab:AddColorpicker({
 		print(Value)
 	end	  
 })
+-- ColorPicker:Set(Color3.fromRGB(255,255,255))
 Tab:AddSlider({
 	Name = "Slider",
 	Min = 0,
@@ -40,7 +47,13 @@ Tab:AddSlider({
 		print(Value)
 	end    
 })
-Tab:AddLabel("Label")
+
+ --Slider:Set(2)
+ Tab:AddLabel("Label")
+--CoolLabel:Set("Label New!")
+Tab:AddParagraph("Paragraph","Paragraph Content")
+-- CoolParagraph:Set("Paragraph New!")
+
 Tab:AddTextbox({
 	Name = "Textbox",
 	Default = "default box input",
@@ -49,6 +62,8 @@ Tab:AddTextbox({
 		print(Value)
 	end	  
 })
+
+
 Tab:AddBind({
 	Name = "Bind",
 	Default = Enum.KeyCode.E,
@@ -57,6 +72,7 @@ Tab:AddBind({
 		print("press")
 	end    
 })
+-- Bind:Set(Enum.KeyCode.T)
 Tab:AddDropdown({
 	Name = "Dropdown",
 	Default = "1",
