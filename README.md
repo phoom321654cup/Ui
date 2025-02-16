@@ -155,6 +155,17 @@ tab1.Font = Enum.Font.Gotham
 tab1.TextScaled = true
 tab1.Parent = sidebar
 
+-- Create Tab Button
+local tab2 = Instance.new("TextButton")
+tab2.Size = UDim2.new(1, 0, 0, 40)
+tab2.Text = "Teleport"
+tab2.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+tab2.TextColor3 = Color3.new(1, 1, 1)
+tab2.BorderSizePixel = 0
+tab2.Font = Enum.Font.Gotham
+tab2.TextScaled = true
+tab2.Parent = sidebar
+
 -- Create Content Page
 local page1 = Instance.new("Frame")
 page1.Size = UDim2.new(1, 0, 1, 0)
@@ -162,6 +173,14 @@ page1.BackgroundTransparency = 1
 page1.Visible = true
 page1.Name = "AuToFarm"
 page1.Parent = contentArea
+
+-- Create Content Page
+local page2 = Instance.new("Frame")
+page2.Size = UDim2.new(1, 0, 1, 0)
+page2.BackgroundTransparency = 1
+page2.Visible = true
+page2.Name = "Teleport"
+page2.Parent = contentArea
 
 -- RedeemCode Button
 local redeemButton = Instance.new("TextButton")
@@ -247,35 +266,35 @@ local function addPoint()
         local args = {
             [1] = "AddPoint",
             [2] = "Melee",
-            [3] = 1
+            [3] = 99
         }
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
     elseif selectedOption == "Defense" then
         local args = {
             [1] = "AddPoint",
             [2] = "Defense",
-            [3] = 1
+            [3] = 99
         }
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
     elseif selectedOption == "Sword" then
         local args = {
             [1] = "AddPoint",
             [2] = "Sword",
-            [3] = 1
+            [3] = 99
         }
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
     elseif selectedOption == "Gun" then
         local args = {
             [1] = "AddPoint",
             [2] = "Gun",
-            [3] = 1
+            [3] = 99
         }
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
     elseif selectedOption == "Fruit" then
         local args = {
             [1] = "AddPoint",
-            [2] = "Fruit",
-            [3] = 1
+            [2] = "Demon Fruit",
+            [3] = 99
         }
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
     end
